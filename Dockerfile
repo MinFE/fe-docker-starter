@@ -22,9 +22,6 @@ RUN apt-get update \
     && apt-get update \
     && apt-get -y install --no-install-recommends yarn \
     #
-    # Install eslint and vue-cli globally
-    && npm install -g eslint @vue/cli \
-    #
     # Clean up
     && apt-get autoremove -y \
     && apt-get clean -y \
@@ -41,5 +38,7 @@ FROM nginx:alpine as Nginx
 
 COPY web-nginx.conf /etc/nginx/conf.d/
 COPY --from=DevContainer /workspaces/fe-docker-starter/dist /srv/web/
+
+CMD ["nginx", "-g", "daemon off;"]
 
 EXPOSE 8080
