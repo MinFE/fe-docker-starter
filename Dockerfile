@@ -2,6 +2,8 @@ FROM node:10 as DevContainer
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+COPY . /workspaces/fe-docker-starter
+
 # Configure apt and install packagess
 RUN apt-get update \
     && apt-get -y install --no-install-recommends apt-utils 2>&1 \ 
@@ -26,15 +28,12 @@ RUN apt-get update \
     # Clean up
     && apt-get autoremove -y \
     && apt-get clean -y \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && cd /workspaces/fe-docker-starter \
+    && yarn build
 
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=dialog
-
-COPY . /workspaces/fe-docker-starter
-
-RUN cd /workspaces/fe-docker-starter \
-    && yarn build
 
 # 构建输出线上镜像
 FROM nginx:alpine as Nginx
@@ -42,4 +41,4 @@ FROM nginx:alpine as Nginx
 COPY web-nginx.conf /etc/nginx/conf.d/
 COPY --from=DevContainer /workspaces/fe-docker-starter/dist /srv/web/
 
-EXPOSE 80
+EXPOSE 8080
