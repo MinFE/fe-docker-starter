@@ -6,7 +6,6 @@ services:
   - docker
 
 if:
-  - branch = master
   - tag IS present
 
 before_script:
