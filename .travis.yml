@@ -5,8 +5,7 @@ dist: xenial
 services:
   - docker
 
-if:
-  - tag IS present
+if: tag IS present
 
 before_script:
   # 登陆到 docker hub
