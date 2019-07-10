@@ -1,0 +1,19 @@
+language: bash
+
+dist: xenial
+
+services:
+  - docker
+
+if:
+  - branch = master
+  - tag IS present
+
+before_script:
+  # 登陆到 docker hub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+after_success:
+  # 当代码测试通过后执行的命令
+  - docker build -t $DOCKER_USERNAME/fe-docker-starter:${TRAVIS_TAG} .
+  - docker push $DOCKER_USERNAME/fe-docker-starter
