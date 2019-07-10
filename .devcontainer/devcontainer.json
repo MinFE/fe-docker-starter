@@ -1,0 +1,12 @@
+{
+    "name": "fe-docker-starter",
+    "dockerFile": "Dockerfile",
+    "appPort": [3030, "8080:8080"],
+    "extensions": [
+        "dbaeumer.vscode-eslint"
+    ],
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "postCreateCommand": "yarn install"
+}
