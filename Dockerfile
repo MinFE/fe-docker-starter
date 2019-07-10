@@ -30,6 +30,7 @@ RUN apt-get update \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/* \
     && cd /workspaces/fe-docker-starter \
+    && yarn \
     && yarn build
 
 # Switch back to dialog for any ad-hoc use of apt-get
